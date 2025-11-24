@@ -1,0 +1,5 @@
+SOFT → Safe (sab safe hai → file bhi, staging bhi)
+
+MIXED → Middle (aadha safe → file safe but unstaged)
+
+HARD → Hurt (sab delete → dil ko hurt 😭)
