@@ -1,23 +1,40 @@
 pipeline {
     agent any
 
+    environment {
+        DOCKER_IMAGE = "hani1208/myapp"
+        DOCKER_CREDENTIALS_ID = "dockerhub-creds"
+    }
+
     stages {
 
-        stage('Stage 1') {
+        stage('Clone Code') {
             steps {
-                echo 'Hello from Stage 1 🚀'
+                git 'https://github.com/hanisingh007/devops_git/'
             }
         }
 
-        stage('Stage 2') {
+        stage('Build Image') {
             steps {
-                echo 'This is Stage 2 🔥'
+                bat 'docker build -t %DOCKER_IMAGE% .'
             }
         }
 
-        stage('Stage 3') {
+        stage('Login to DockerHub') {
             steps {
-                echo 'Pipeline is working 🎯'
+                withCredentials([usernamePassword(
+                    credentialsId: DOCKER_CREDENTIALS_ID,
+                    usernameVariable: 'USERNAME',
+                    passwordVariable: 'PASSWORD'
+                )]) {
+                    bat 'docker login -u %USERNAME% -p %PASSWORD%'
+                }
+            }
+        }
+
+        stage('Push Image') {
+            steps {
+                bat 'docker push %DOCKER_IMAGE%'
             }
         }
     }
