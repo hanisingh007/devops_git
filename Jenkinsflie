@@ -8,11 +8,7 @@ pipeline {
 
     stages {
 
-        stage('Clone Code') {
-            steps {
-                git 'https://github.com/hanisingh007/devops_git/'
-            }
-        }
+        
 
         stage('Build Image') {
             steps {
